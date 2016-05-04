@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+set_time_limit(0);
+/**
+ * @var Composer\Autoload\ClassLoader $loader
+ */
+$loader = require __DIR__.'/../vendor/autoload.php';
+
+$application = new \jonag\Episodes\Application('Episodes', '2.0');
+
+$container = $application->getContainer();
+$container['pdo'] = function () {
+    $pdo = new \PDO('sqlite'.__DIR__.'/../database.sqlite');
+    $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+    $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+    return $pdo;
+};
+$container['config'] = function () {
+    return \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__.'/../settings.yml'))['parameters'];
+};
+
+$application->add(new \jonag\Episodes\Command\MoveEpisodesCommand());
+$application->run();

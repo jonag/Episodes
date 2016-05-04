@@ -1,0 +1,35 @@
+{
+    "name": "jonag/episodes",
+    "authors": [
+        {
+            "name": "jonag",
+            "email": "jonag@jonag.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "jonag\\Episodes\\": "src/jonag/Episodes/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/console": "^3.0",
+        "pimple/pimple": "^3.0",
+        "symfony/finder": "^3.0",
+        "symfony/yaml": "^3.0",
+        "incenteev/composer-parameter-handler": "~2.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ]
+    },
+    "extra": {
+        "incenteev-parameters": {
+            "file": "settings.yml"
+        }
+    }
+}

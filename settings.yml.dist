@@ -1,0 +1,5 @@
+parameters:
+    source_directory: "/Users/John Doe/Downloads/TVShows"
+    target_directory: "/Users/John Doe/Movies/TVShows"
+    ignore_if_nuked: true
+    delete_nuked: true
