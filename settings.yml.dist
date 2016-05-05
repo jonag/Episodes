@@ -3,3 +3,4 @@ parameters:
     target_directory: "/Users/John Doe/Movies/TVShows"
     ignore_if_nuked: true
     delete_nuked: true
+    search_subtitles: true

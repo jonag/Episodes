@@ -4,9 +4,95 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f66ae406bdaaf0e16c87f2ec6ac81a20",
-    "content-hash": "c179f91ef7f9a70751fe4debe4685203",
+    "hash": "2358b34654aa0143d54e7ed2cf8bc891",
+    "content-hash": "2929fb56bbe4a1bc4ce05a86b807ec4f",
     "packages": [
+        {
+            "name": "egeloen/http-adapter",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egeloen/ivory-http-adapter.git",
+                "reference": "f8514a0f23228087ac00d06e9a71533edcdf185c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egeloen/ivory-http-adapter/zipball/f8514a0f23228087ac00d06e9a71533edcdf185c",
+                "reference": "f8514a0f23228087ac00d06e9a71533edcdf185c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.8",
+                "zendframework/zend-diactoros": "^1.1"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "^3.0.3",
+                "doctrine/cache": "^1.4",
+                "ext-curl": "*",
+                "guzzle/guzzle": "^3.9.4@dev",
+                "guzzlehttp/guzzle": "^4.1.4|^5.0|^6.0",
+                "kriswallsmith/buzz": "^0.13",
+                "nategood/httpful": "^0.2.17",
+                "phpunit/phpunit": "^4.0",
+                "phpunit/phpunit-mock-objects": "dev-matcher-verify as 2.3.x-dev",
+                "psr/log": "^1.0",
+                "react/dns": "^0.4.1",
+                "react/http-client": "^0.4",
+                "rmccue/requests": "dev-master",
+                "satooshi/php-coveralls": "^0.6",
+                "symfony/event-dispatcher": "^2.0|^3.0",
+                "symfony/phpunit-bridge": "^2.7|^3.0",
+                "tedivm/stash": "^0.13",
+                "zendframework/zend-http": "^2.3.4",
+                "zendframework/zendframework1": ">=1.12.9,<=1.12.14|^1.12.16"
+            },
+            "suggest": {
+                "doctrine/cache": "Allows you to use the cache event subscriber",
+                "ext-curl": "Allows you to use the cURL adapter",
+                "ext-http": "Allows you to use the PECL adapter",
+                "guzzle/guzzle": "Allows you to use the Guzzle 3 adapter",
+                "guzzlehttp/guzzle": "Allows you to use the Guzzle 4 adapter",
+                "kriswallsmith/buzz": "Allows you to use the Buzz adapter",
+                "nategood/httpful": "Allows you to use the Httpful adapter",
+                "psr/log": "Allows you to use the logger event subscriber",
+                "rmccue/requests": "Allows you to use the Requests adapter",
+                "symfony/event-dispatcher": "Allows you to use the event lifecycle",
+                "symfony/stopwatch": "Allows you to use the stopwatch http adapter and event subscriber",
+                "tedivm/stash": "Allows you to use the cache event subscriber",
+                "zendframework/zend-http": "Allows you to use the Zend 2 adapter",
+                "zendframework/zendframework1": "Allows you to use the Zend 1 adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivory\\HttpAdapter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                }
+            ],
+            "description": "Issue HTTP request for PHP 5.3+.",
+            "keywords": [
+                "http",
+                "http-adapter",
+                "http-client",
+                "psr-7"
+            ],
+            "abandoned": "php-http/httplug",
+            "time": "2015-12-13 10:05:58"
+        },
         {
             "name": "incenteev/composer-parameter-handler",
             "version": "v2.1.2",
@@ -59,6 +145,72 @@
             "time": "2015-11-10 17:04:01"
         },
         {
+            "name": "lstrojny/fxmlrpc",
+            "version": "0.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lstrojny/fxmlrpc.git",
+                "reference": "376f954655b69df4ff8e512392cc75793212fc39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lstrojny/fxmlrpc/zipball/376f954655b69df4ff8e512392cc75793212fc39",
+                "reference": "376f954655b69df4ff8e512392cc75793212fc39",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "egeloen/http-adapter": "0.6.*@dev",
+                "internations/kodierungsregelwerksammlung": "dev-master",
+                "lstrojny/hmmmath": "*",
+                "monolog/monolog": ">=1.1",
+                "phpunit/phpunit": "~4",
+                "psr/log": "*",
+                "symfony/process": "~2.1",
+                "zendframework/zend-log": "~2",
+                "zendframework/zendframework1": "~1.12.4"
+            },
+            "suggest": {
+                "guzzle/guzzle": "To integrate Guzzle as HTTP client",
+                "monolog/monolog": "To integrate monolog as logger",
+                "zendframework/zend-log": "To use ZF2 Zend\\Log\\Logger as a logger",
+                "zendframework/zendframework1": "To use ZF1 Log"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "fXmlRpc\\": "src/fXmlRpc"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Strojny",
+                    "email": "lstrojny@php.net",
+                    "homepage": "http://usrportage.de"
+                }
+            ],
+            "description": "Fast and tiny XML/RPC client with bridges for various HTTP clients",
+            "keywords": [
+                "api",
+                "performance",
+                "rpc",
+                "xml",
+                "xmlrpc"
+            ],
+            "time": "2015-04-24 11:28:44"
+        },
+        {
             "name": "pimple/pimple",
             "version": "v3.0.2",
             "source": {
@@ -105,23 +257,31 @@
             "time": "2015-09-11 15:10:35"
         },
         {
-            "name": "psr/log",
-            "version": "1.0.0",
+            "name": "psr/http-message",
+            "version": "1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=5.3.0"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Psr\\Log\\": ""
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -134,13 +294,16 @@
                     "homepage": "http://www.php-fig.org/"
                 }
             ],
-            "description": "Common interface for logging libraries",
+            "description": "Common interface for HTTP messages",
             "keywords": [
-                "log",
+                "http",
+                "http-message",
                 "psr",
-                "psr-3"
+                "psr-7",
+                "request",
+                "response"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2015-05-04 20:22:00"
         },
         {
             "name": "symfony/console",
@@ -358,6 +521,56 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2016-03-04 07:55:57"
+        },
+        {
+            "name": "zendframework/zend-diactoros",
+            "version": "1.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-diactoros.git",
+                "reference": "b1d59735b672865dbeb930805029c24f226e3e77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/b1d59735b672865dbeb930805029c24f226e3e77",
+                "reference": "b1d59735b672865dbeb930805029c24f226e3e77",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "~1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6",
+                "squizlabs/php_codesniffer": "^2.3.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev",
+                    "dev-develop": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Diactoros\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "PSR HTTP Message implementations",
+            "homepage": "https://github.com/zendframework/zend-diactoros",
+            "keywords": [
+                "http",
+                "psr",
+                "psr-7"
+            ],
+            "time": "2016-03-17 18:02:05"
         }
     ],
     "packages-dev": [],

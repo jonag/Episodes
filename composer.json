@@ -8,7 +8,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "jonag\\Episodes\\": "src/jonag/Episodes/"
+            "jonag\\Episodes\\": "src/jonag/Episodes/",
+            "jonag\\OpenSubtitlesSDK\\": "src/jonag/OpenSubtitlesSDK/"
         }
     },
     "require": {
@@ -18,7 +19,8 @@
         "symfony/finder": "^3.0",
         "symfony/yaml": "^3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "psr/log": "^1.0"
+        "lstrojny/fxmlrpc": "^0.10.0",
+        "egeloen/http-adapter": "^1.0"
     },
     "scripts": {
         "post-install-cmd": [

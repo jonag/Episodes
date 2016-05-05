@@ -20,6 +20,10 @@ $container['pdo'] = function () {
 $container['config'] = function () {
     return \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__.'/../settings.yml'))['parameters'];
 };
+$container['osClient'] = function () {
+    return new \jonag\OpenSubtitlesSDK\Client();
+};
 
 $application->add(new \jonag\Episodes\Command\MoveEpisodesCommand());
+$application->add(new \jonag\Episodes\Command\SearchAllSubtitlesCommand());
 $application->run();
