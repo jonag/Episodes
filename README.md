@@ -1,6 +1,9 @@
 Episodes
 ========
 
+This application organize your downloaded tv shows and can download their subtitles.
+The subtitles are downloaded thanks to the [OpenSubtitles](http://www.opensubtitles.org/) API.
+
 ## Usage
 1. Move episodes to the tv shows directory
 

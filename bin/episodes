@@ -25,5 +25,5 @@ $container['osClient'] = function () {
 };
 
 $application->add(new \jonag\Episodes\Command\MoveEpisodesCommand());
-$application->add(new \jonag\Episodes\Command\SearchAllSubtitlesCommand());
+$application->add(new \jonag\Episodes\Command\SearchSubtitlesCommand());
 $application->run();
