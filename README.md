@@ -25,3 +25,9 @@ The subtitles are downloaded thanks to the [OpenSubtitles](http://www.opensubtit
     ```
 
 3. Edit the configuration file (settings.yml)
+
+4. Initiate the database
+
+    ``` sh
+    $ bin/episodes subtitles:db:init
+    ```

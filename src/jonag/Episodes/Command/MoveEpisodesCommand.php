@@ -134,7 +134,18 @@ class MoveEpisodesCommand extends Command
                     'file' => $filePath,
                 ];
                 $commandInput = new ArrayInput($arguments);
-                $searchSubtitlesCommand->run($commandInput, $io);
+                $subtitlesFound = $searchSubtitlesCommand->run($commandInput, $io);
+
+                if ($subtitlesFound !== 0) {
+                    $addToDatabaseCommand = $this->getApplication()->find('subtitles:db:add');
+
+                    $arguments = [
+                        'command' => 'subtitles:db:add',
+                        'file' => $filePath,
+                    ];
+                    $commandInput = new ArrayInput($arguments);
+                    $addToDatabaseCommand->run($commandInput, $io);
+                }
             }
         }
     }

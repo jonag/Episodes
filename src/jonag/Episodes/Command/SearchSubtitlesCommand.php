@@ -39,7 +39,7 @@ class SearchSubtitlesCommand extends Command
         if (!$fileInfo->isFile()) {
             $io->error(sprintf('The resource %s is not a file', $filePath));
 
-            return;
+            return 1;
         }
 
         $subtitlesPath = $fileInfo->getPath().DIRECTORY_SEPARATOR.$fileInfo->getBasename(
@@ -48,7 +48,7 @@ class SearchSubtitlesCommand extends Command
         if (file_exists($subtitlesPath) && !$input->getOption('override')) {
             $io->warning('Subtitles already exist for this file. Use option --override to override');
 
-            return;
+            return 2;
         }
 
         $io->text(sprintf('Looking for subtitles for the file %s', $fileInfo->getFilename()));
@@ -67,15 +67,15 @@ class SearchSubtitlesCommand extends Command
             $progressBar->finish();
             $io->error(sprintf('An error occured while calling the OpenSubtitles API %s', $e->getMessage()));
 
-            return;
+            return 4;
         }
 
         $link = $this->findBestSubtitle($fileInfo->getFilename(), $subtitles);
         if ($link === null) {
             $progressBar->finish();
-            $io->error('Unable to find matching subtitles');
+            $io->warning('Unable to find matching subtitles');
 
-            return;
+            return 3;
         }
         $progressBar->advance();
 
@@ -84,7 +84,7 @@ class SearchSubtitlesCommand extends Command
             $progressBar->finish();
             $io->error('Unable to download the subtitles');
 
-            return;
+            return 5;
         }
         $data = gzinflate(substr($gzSubtitles, 10));
         $copied = @file_put_contents($subtitlesPath, $data);
@@ -92,14 +92,14 @@ class SearchSubtitlesCommand extends Command
             $progressBar->finish();
             $io->error(sprintf('Unable to write the file %s', $subtitlesPath));
 
-            return;
+            return 6;
         }
         $progressBar->finish();
 
 
         $io->success(sprintf('Subtitles downloaded'));
 
-        return;
+        return 0;
     }
 
 

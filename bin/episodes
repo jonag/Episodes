@@ -11,7 +11,7 @@ $application = new \jonag\Episodes\Application('Episodes', '2.0');
 
 $container = $application->getContainer();
 $container['pdo'] = function () {
-    $pdo = new \PDO('sqlite'.__DIR__.'/../database.sqlite');
+    $pdo = new \PDO('sqlite:'.__DIR__.'/../database.sqlite');
     $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
     $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -26,4 +26,7 @@ $container['osClient'] = function () {
 
 $application->add(new \jonag\Episodes\Command\MoveEpisodesCommand());
 $application->add(new \jonag\Episodes\Command\SearchSubtitlesCommand());
+$application->add(new \jonag\Episodes\Command\InitDatabaseCommand());
+$application->add(new \jonag\Episodes\Command\AddToDatabaseCommand());
+$application->add(new \jonag\Episodes\Command\SearchMissingSubtitlesCommand());
 $application->run();
