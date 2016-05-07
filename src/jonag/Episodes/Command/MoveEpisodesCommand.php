@@ -179,7 +179,7 @@ class MoveEpisodesCommand extends Command
 
         foreach ($finder->in($directoryPath) as $file) {
             /** @var SplFileInfo $file */
-            if (stripos($file->getFilename(), 'PROPER') === false ||  stripos($file->getFilename(), 'REPACK') === false) {
+            if (stripos($file->getFilename(), 'PROPER') === false &&  stripos($file->getFilename(), 'REPACK') === false) {
                 $io->text(sprintf('Deleting nuked release %s', $file->getFilename()));
                 unlink($file);
             }
