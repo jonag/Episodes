@@ -61,7 +61,7 @@ class SearchSubtitlesCommand extends Command
         /** @var Client $osClient */
         $osClient = $container['osClient'];
         try {
-            $subtitles = $osClient->getSubtitles('en', $hash, filesize($filePath));
+            $subtitles = $osClient->getSubtitles('eng', $hash, filesize($filePath));
             $progressBar->advance();
         } catch (OpenSubtitlesException $e) {
             $progressBar->finish();
@@ -110,12 +110,34 @@ class SearchSubtitlesCommand extends Command
      */
     protected function findBestSubtitle($file, $subtitles)
     {
+        $bestScore = 0;
+        $bestDownloadsCount = 0;
+        $link = null;
+
         foreach ($subtitles as $subtitle) {
-            if ($subtitle['SubHearingImpaired'] === '0' && stripos($subtitle['MovieReleaseName'], $file) !== -1) {
-                return $subtitle['SubDownloadLink'];
+            if ($subtitle['SubHearingImpaired'] !== '0') {
+                continue;
+            }
+
+            if (stripos($subtitle['MovieReleaseName'], $file) === -1) {
+                continue;
+            }
+
+            $score = 0;
+
+            if ($subtitle['UserRank'] === 'trusted' || $subtitle['UserRank'] === 'administrator') {
+                $score += 4;
+            } elseif ($subtitle['UserRank'] === 'platinum member' || $subtitle['UserRank'] === 'gold member') {
+                $score += 3;
+            }
+
+            if ($score > $bestScore || ($score === $bestScore && (int)$subtitle['SubDownloadsCnt'] > $bestDownloadsCount)) {
+                $bestScore = $score;
+                $bestDownloadsCount = (int)$subtitle['SubDownloadsCnt'];
+                $link = $subtitle['SubDownloadLink'];
             }
         }
 
-        return null;
+        return $link;
     }
 }
