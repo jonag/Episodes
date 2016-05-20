@@ -61,7 +61,7 @@ class SearchSubtitlesCommand extends Command
         /** @var Client $osClient */
         $osClient = $container['osClient'];
         try {
-            $subtitles = $osClient->getSubtitles('en', $hash, filesize($filePath));
+            $subtitles = $osClient->getSubtitles('eng', $hash, filesize($filePath));
             $progressBar->advance();
         } catch (OpenSubtitlesException $e) {
             $progressBar->finish();
