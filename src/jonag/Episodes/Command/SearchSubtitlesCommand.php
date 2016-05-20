@@ -61,7 +61,7 @@ class SearchSubtitlesCommand extends Command
         /** @var Client $osClient */
         $osClient = $container['osClient'];
         try {
-            $subtitles = $osClient->getSubtitles('eng', $hash, filesize($filePath));
+            $subtitles = $osClient->getSubtitles('en', $hash, filesize($filePath));
             $progressBar->advance();
         } catch (OpenSubtitlesException $e) {
             $progressBar->finish();
@@ -127,13 +127,15 @@ class SearchSubtitlesCommand extends Command
 
             if ($subtitle['UserRank'] === 'trusted' || $subtitle['UserRank'] === 'administrator') {
                 $score += 4;
-            } elseif ($subtitle['UserRank'] === 'platinum member' || $subtitle['UserRank'] === 'gold member') {
+            }
+
+            if ($subtitle['UserRank'] === 'platinum member' || $subtitle['UserRank'] === 'gold member') {
                 $score += 3;
             }
 
-            if ($score > $bestScore || ($score === $bestScore && (int)$subtitle['SubDownloadsCnt'] > $bestDownloadsCount)) {
+            if ($score > $bestScore || ($score === $bestScore && (int) $subtitle['SubDownloadsCnt'] > $bestDownloadsCount)) {
                 $bestScore = $score;
-                $bestDownloadsCount = (int)$subtitle['SubDownloadsCnt'];
+                $bestDownloadsCount = (int) $subtitle['SubDownloadsCnt'];
                 $link = $subtitle['SubDownloadLink'];
             }
         }
