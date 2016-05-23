@@ -110,16 +110,12 @@ class SearchSubtitlesCommand extends Command
      */
     protected function findBestSubtitle($file, $subtitles)
     {
-        $bestScore = 0;
-        $bestDownloadsCount = 0;
+        $bestScore = -1;
+        $bestDownloadsCount = -1;
         $link = null;
 
         foreach ($subtitles as $subtitle) {
             if ($subtitle['SubHearingImpaired'] !== '0') {
-                continue;
-            }
-
-            if (stripos($subtitle['MovieReleaseName'], $file) === -1) {
                 continue;
             }
 
