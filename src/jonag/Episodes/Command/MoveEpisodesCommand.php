@@ -55,7 +55,8 @@ class MoveEpisodesCommand extends Command
             $target,
             $config['ignore_if_nuked'],
             $config['delete_nuked'],
-            $config['search_subtitles']
+            $config['search_subtitles'],
+            $config['prefer_move_over_copy']
         );
 
         return 0;
@@ -68,6 +69,7 @@ class MoveEpisodesCommand extends Command
      * @param boolean                                      $ignoreIfNuked
      * @param boolean                                      $deleteNuked
      * @param boolean                                      $searchSubtitles
+     * @param boolean                                      $preferMoveOverCopy
      */
     protected function exploreDirectory(
         OutputStyle $io,
@@ -75,7 +77,8 @@ class MoveEpisodesCommand extends Command
         $target,
         $ignoreIfNuked,
         $deleteNuked,
-        $searchSubtitles
+        $searchSubtitles,
+        $preferMoveOverCopy
     )
     {
         $finder = new Finder();
@@ -113,14 +116,25 @@ class MoveEpisodesCommand extends Command
                 continue;
             }
 
-            $io->text(sprintf('Starting the copy of the file %s', $file->getFilename()));
-            $success = copy($file->getPathname(), $filePath);
-            if (!$success) {
-                $io->warning('An error occurred while copying the file');
-                continue;
-            }
+            if ($preferMoveOverCopy) {
+                $io->text(sprintf('Starting the move of the file %s', $file->getFilename()));
+                $success = rename($file->getPathname(), $filePath);
+                if (!$success) {
+                    $io->warning('An error occurred while moving the file');
+                    continue;
+                }
 
-            $io->success(sprintf('File copied with the name %s', $episode->getReleaseName().'.'.$file->getExtension()));
+                $io->success(sprintf('File moved with the name %s', $episode->getReleaseName().'.'.$file->getExtension()));
+            } else {
+                $io->text(sprintf('Starting the copy of the file %s', $file->getFilename()));
+                $success = copy($file->getPathname(), $filePath);
+                if (!$success) {
+                    $io->warning('An error occurred while copying the file');
+                    continue;
+                }
+
+                $io->success(sprintf('File copied with the name %s', $episode->getReleaseName().'.'.$file->getExtension()));
+            }
 
             if ($episode->isProper() && $deleteNuked) {
                 $this->deleteNuked($io, $directoryPath, $episode->getSeason(), $episode->getEpisode());

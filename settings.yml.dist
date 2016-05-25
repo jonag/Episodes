@@ -4,3 +4,4 @@ parameters:
     ignore_if_nuked: true
     delete_nuked: true
     search_subtitles: true
+    prefer_move_over_copy: false

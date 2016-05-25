@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "egeloen/http-adapter",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egeloen/ivory-http-adapter.git",
-                "reference": "f8514a0f23228087ac00d06e9a71533edcdf185c"
+                "reference": "5d5dd5a10cc200bc94de93fe1b281da3c8b5f0f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/ivory-http-adapter/zipball/f8514a0f23228087ac00d06e9a71533edcdf185c",
-                "reference": "f8514a0f23228087ac00d06e9a71533edcdf185c",
+                "url": "https://api.github.com/repos/egeloen/ivory-http-adapter/zipball/5d5dd5a10cc200bc94de93fe1b281da3c8b5f0f2",
+                "reference": "5d5dd5a10cc200bc94de93fe1b281da3c8b5f0f2",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
                 "psr-7"
             ],
             "abandoned": "php-http/httplug",
-            "time": "2015-12-13 10:05:58"
+            "time": "2016-05-06 21:07:48"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -307,7 +307,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -367,7 +367,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -416,16 +416,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "1289d16209491b584839022f29257ad859b8532d"
+                "reference": "dff51f72b0706335131b00a7f49606168c582594"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/1289d16209491b584839022f29257ad859b8532d",
-                "reference": "1289d16209491b584839022f29257ad859b8532d",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/dff51f72b0706335131b00a7f49606168c582594",
+                "reference": "dff51f72b0706335131b00a7f49606168c582594",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +437,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -471,11 +471,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-05-18 14:26:46"
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
