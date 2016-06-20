@@ -5,7 +5,7 @@ namespace jonag\Episodes\Helper;
 
 class EpisodeHelper
 {
-    const PATTERN = '^(.+)[\.|\s]S?([0-9]+)[Ex]([0-9]+)(?:\-?[Ex]?[0-9]+)*?[\.|\s][^\[]+[^\.]([\.|\s]?\[.+\])?$';
+    const PATTERN = '/^(.+)[\.|\s]S?([0-9]+)[Ex]([0-9]+)(?:\-?[Ex]?[0-9]+)*?[\.|\s][^\[]+[^\.]([\.|\s]?\[.+\])?$/';
 
     private $showName;
     private $season;
