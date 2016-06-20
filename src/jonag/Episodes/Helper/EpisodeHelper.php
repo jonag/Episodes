@@ -16,7 +16,7 @@ class EpisodeHelper
     /**
      * EpisodeHelper constructor.
      * @param string  $showName
-     * @param int  $season
+     * @param int     $season
      * @param string  $episode
      * @param string  $releaseName
      * @param boolean $isProper
