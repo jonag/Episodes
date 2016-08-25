@@ -40,7 +40,7 @@ class EpisodeHelper
     public static function parseFileName($fileName)
     {
         if (preg_match(self::PATTERN, $fileName, $matches)) {
-            $showName = str_replace('.', ' ', $matches[1]);
+            $showName = ucwords(strtolower(str_replace('.', ' ', $matches[1])));
             $season = (int) $matches[2];
             $episode = $matches[3];
             $releaseName = isset($matches[4]) ? str_replace($matches[4], '', $matches[0]) : $matches[0];
