@@ -12,6 +12,7 @@ class EpisodeHelper
     private $episode;
     private $proper;
     private $releaseName;
+    private $sample;
 
     /**
      * EpisodeHelper constructor.
@@ -20,14 +21,16 @@ class EpisodeHelper
      * @param string  $episode
      * @param string  $releaseName
      * @param boolean $isProper
+     * @param boolean $isSample
      */
-    public function __construct($showName, $season, $episode, $releaseName, $isProper)
+    public function __construct($showName, $season, $episode, $releaseName, $isProper, $isSample)
     {
         $this->showName = $showName;
         $this->season = $season;
         $this->episode = $episode;
         $this->releaseName = $releaseName;
         $this->proper = $isProper;
+        $this->sample = $isSample;
     }
 
     /**
@@ -42,8 +45,9 @@ class EpisodeHelper
             $episode = $matches[3];
             $releaseName = isset($matches[4]) ? str_replace($matches[4], '', $matches[0]) : $matches[0];
             $isProper = stripos($releaseName, 'PROPER') !== false || stripos($releaseName, 'REPACK') !== false;
+            $isSample = stripos($releaseName, 'SAMPLE') !== false;
 
-            return new EpisodeHelper($showName, $season, $episode, $releaseName, $isProper);
+            return new EpisodeHelper($showName, $season, $episode, $releaseName, $isProper, $isSample);
         } else {
             return false;
         }
@@ -87,5 +91,13 @@ class EpisodeHelper
     public function getReleaseName()
     {
         return $this->releaseName;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSample()
+    {
+        return $this->sample;
     }
 }

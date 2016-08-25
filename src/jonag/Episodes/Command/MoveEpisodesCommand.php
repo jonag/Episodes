@@ -94,6 +94,11 @@ class MoveEpisodesCommand extends Command
                 continue;
             }
 
+            if ($episode->isSample()) {
+                $io->note(sprintf('File %s ignored because it\'s a sample', $file->getBasename()));
+                continue;
+            }
+
             $io->section(sprintf('Handling file %s', $file->getBasename()));
             $directoryPath = $target.DIRECTORY_SEPARATOR.$episode->getShowName().DIRECTORY_SEPARATOR.'Saison '.$episode->getSeason();
             if (!file_exists($directoryPath)) {
