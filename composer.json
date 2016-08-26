@@ -34,5 +34,9 @@
         "incenteev-parameters": {
             "file": "settings.yml"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5",
+        "mikey179/vfsStream": "^1.6"
     }
 }

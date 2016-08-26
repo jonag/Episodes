@@ -24,9 +24,4 @@ $container['osClient'] = function () {
     return new \jonag\OpenSubtitlesSDK\Client();
 };
 
-$application->add(new \jonag\Episodes\Command\MoveEpisodesCommand());
-$application->add(new \jonag\Episodes\Command\SearchSubtitlesCommand());
-$application->add(new \jonag\Episodes\Command\InitDatabaseCommand());
-$application->add(new \jonag\Episodes\Command\AddToDatabaseCommand());
-$application->add(new \jonag\Episodes\Command\SearchMissingSubtitlesCommand());
 $application->run();
