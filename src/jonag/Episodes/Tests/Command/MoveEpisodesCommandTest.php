@@ -45,6 +45,7 @@ class MoveEpisodesCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($this->application->find('episodes:move'));
         $commandTester->execute([]);
 
+        $this->assertContains('File sample-angie.tribeca.s01e07.720p.hdtv.x264-killers.mkv ignored because it\'s a sample', $commandTester->getDisplay());
         $this->assertEquals([], vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure()['Episodes']['To'], 'Target directory is empty');
     }
 
