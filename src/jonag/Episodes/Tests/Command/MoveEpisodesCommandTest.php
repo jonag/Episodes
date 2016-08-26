@@ -45,12 +45,6 @@ class MoveEpisodesCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($this->application->find('episodes:move'));
         $commandTester->execute([]);
 
-        $this->assertContains(
-            'File sample-angie.tribeca.s01e07.720p.hdtv.x264-killers.mkv ignored because it\'s a sample',
-            $commandTester->getDisplay(),
-            'Sample file is ignored'
-        );
-
         $this->assertEquals([], vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure()['Episodes']['To'], 'Target directory is empty');
     }
 
@@ -75,7 +69,6 @@ class MoveEpisodesCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester = new CommandTester($this->application->find('episodes:move'));
         $commandTester->execute([]);
 
-        $this->assertContains('File copied with the name angie.tribeca.s01e07.720p.hdtv.x264-killers.mkv', $commandTester->getDisplay());
         $this->assertFileExists(vfsStream::url('Episodes/To/Angie Tribeca/Saison 1/angie.tribeca.s01e07.720p.hdtv.x264-killers.mkv'));
     }
 }
