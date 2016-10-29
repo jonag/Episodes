@@ -5,7 +5,7 @@ namespace jonag\Episodes\Helper;
 
 class EpisodeHelper
 {
-    const PATTERN = '/^(.+)[\.|\s]S?([0-9]+)[Ex]([0-9]+)(?:\-?[Ex]?[0-9]+)*?[\.|\s][^\[]+[^\.]([\.|\s]?\[.+\])?$/i';
+    const PATTERN = '/^(?<showName>.+)[\. ]S?(?<season>\d+)[Ex](?<episode>\d+).*?(?<source>\[\w+\])?$/i';
 
     private $showName;
     private $season;
@@ -40,10 +40,10 @@ class EpisodeHelper
     public static function parseFileName($fileName)
     {
         if (preg_match(self::PATTERN, $fileName, $matches)) {
-            $showName = ucwords(strtolower(str_replace('.', ' ', $matches[1])));
-            $season = (int) $matches[2];
-            $episode = $matches[3];
-            $releaseName = isset($matches[4]) ? str_replace($matches[4], '', $matches[0]) : $matches[0];
+            $showName = ucwords(strtolower(str_replace('.', ' ', $matches['showName'])));
+            $season = (int) $matches['season'];
+            $episode = $matches['episode'];
+            $releaseName = isset($matches['source']) ? str_replace($matches['source'], '', $fileName) : $fileName;
             $isProper = stripos($releaseName, 'PROPER') !== false || stripos($releaseName, 'REPACK') !== false;
             $isSample = stripos($releaseName, 'SAMPLE') !== false;
 
