@@ -38,6 +38,7 @@ class EpisodeHelperTest extends \PHPUnit_Framework_TestCase
             ['Angie.Tribeca.S01E07.720p.HDTV.X264-DIMENSION[rarbg]', ['showName' => 'Angie Tribeca', 'season' => 1, 'episode' => 7, 'releaseName' => 'Angie.Tribeca.S01E07.720p.HDTV.X264-DIMENSION', 'proper' => false, 'sample' => false]],
             ['Angie.Tribeca.S01E06.PROPER.720p.HDTV.X264-DIMENSION', ['showName' => 'Angie Tribeca', 'season' => 1, 'episode' => 6, 'releaseName' => 'Angie.Tribeca.S01E06.PROPER.720p.HDTV.X264-DIMENSION', 'proper' => true, 'sample' => false]],
             ['Angie.Tribeca.S01E05.720p.HDTV.X264-DIMENSION-sample', ['showName' => 'Angie Tribeca', 'season' => 1, 'episode' => 5, 'releaseName' => 'Angie.Tribeca.S01E05.720p.HDTV.X264-DIMENSION-sample', 'proper' => false, 'sample' => true]],
+            ['The.Flash.S03E01', ['showName' => 'The Flash', 'season' => 3, 'episode' => 1, 'releaseName' => 'The.Flash.S03E01', 'proper' => false, 'sample' => false]]
         ];
     }
 }
