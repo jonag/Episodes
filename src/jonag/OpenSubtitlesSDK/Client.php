@@ -48,19 +48,38 @@ class Client
         }
     }
 
-    public function getSubtitles($language, $movieHash, $movieSize)
+    public function getSubtitles($language, $options)
     {
+        $search = [];
+        if (isset($options['hash'])) {
+            $search[] = [
+                'sublanguageid' => $language,
+                'moviehash' => $options['hash']['movieHash'],
+                'moviebytesize' => $options['hash']['movieSize']
+            ];
+        }
+
+        if (isset($options['tag'])) {
+            $search[] = [
+                'sublanguageid' => $language,
+                'tag' => $options['tag']['releaseName'],
+            ];
+        }
+
+        if (isset($options['query'])) {
+            $search[] = [
+                'sublanguageid' => $language,
+                'query' => $options['query']['showName'],
+                'season' => $options['query']['season'],
+                'episode' => $options['query']['episode']
+            ];
+        }
+
         $result = $this->call(
             'SearchSubtitles',
             [
                 $this->getToken(),
-                [
-                    [
-                        'sublanguageid' => $language,
-                        'moviehash' => $movieHash,
-                        'moviebytesize' => $movieSize,
-                    ],
-                ],
+                $search,
             ]
         );
 
