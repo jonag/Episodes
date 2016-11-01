@@ -2,6 +2,7 @@
 
 namespace jonag\Episodes\Command;
 
+use jonag\Episodes\Helper\EpisodeHelper;
 use jonag\OpenSubtitlesSDK\Client;
 use jonag\OpenSubtitlesSDK\Exception\OpenSubtitlesException;
 use jonag\OpenSubtitlesSDK\Helper\Hash;
@@ -58,10 +59,26 @@ class SearchSubtitlesCommand extends Command
         $hash = Hash::calculateHash($filePath);
         $progressBar->advance();
 
+        $searchOptions = [
+            'hash' => [
+                'movieHash' => $hash,
+                'movieSize' => filesize($filePath)
+            ],
+        ];
+
+        $episode = EpisodeHelper::parseFileName($fileInfo->getBasename('.'.$fileInfo->getExtension()));
+        if ($episode !== false) {
+            $searchOptions['query'] = [
+                'showName' => $episode->getShowName(),
+                'season' => $episode->getSeason(),
+                'episode' => $episode->getEpisode(),
+            ];
+        }
+
         /** @var Client $osClient */
         $osClient = $container['osClient'];
         try {
-            $subtitles = $osClient->getSubtitles('eng', $hash, filesize($filePath));
+            $subtitles = $osClient->getSubtitles('eng', $searchOptions);
             $progressBar->advance();
         } catch (OpenSubtitlesException $e) {
             $progressBar->finish();
@@ -70,7 +87,7 @@ class SearchSubtitlesCommand extends Command
             return 4;
         }
 
-        $link = $this->findBestSubtitle($fileInfo->getFilename(), $subtitles);
+        $link = $this->findBestSubtitle($subtitles, $episode);
         if ($link === null) {
             $progressBar->finish();
             $io->warning('Unable to find matching subtitles');
@@ -104,11 +121,11 @@ class SearchSubtitlesCommand extends Command
 
 
     /**
-     * @param $file
-     * @param $subtitles
-     * @return string|null
+     * @param array $subtitles
+     * @param EpisodeHelper|false $episode
+     * @return null|string
      */
-    protected function findBestSubtitle($file, $subtitles)
+    protected function findBestSubtitle($subtitles, $episode)
     {
         $bestScore = -1;
         $bestDownloadsCount = -1;
@@ -119,13 +136,22 @@ class SearchSubtitlesCommand extends Command
                 continue;
             }
 
+            if ($episode !== false
+                && $subtitle['MatchedBy'] === 'fulltext'
+                && $episode->getTeam() !== null
+                && strpos($subtitle['MovieReleaseName'], $episode->getTeam()) === false) {
+                continue;
+            }
+
             $score = 0;
+
+            if ($subtitle['MatchedBy'] === 'moviehash') {
+                $score += 10;
+            }
 
             if ($subtitle['UserRank'] === 'trusted' || $subtitle['UserRank'] === 'administrator') {
                 $score += 4;
-            }
-
-            if ($subtitle['UserRank'] === 'platinum member' || $subtitle['UserRank'] === 'gold member') {
+            } elseif ($subtitle['UserRank'] === 'platinum member' || $subtitle['UserRank'] === 'gold member') {
                 $score += 3;
             }
 

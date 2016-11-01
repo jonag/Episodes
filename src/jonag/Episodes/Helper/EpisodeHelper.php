@@ -5,7 +5,7 @@ namespace jonag\Episodes\Helper;
 
 class EpisodeHelper
 {
-    const PATTERN = '/^(?<showName>.+)[\. ]S?(?<season>\d+)[Ex](?<episode>\d+).*?(?<source>\[\w+\])?$/i';
+    const PATTERN = '/^(?<showName>.+)[\. ]S?(?<season>\d+)[Ex](?<episode>\d+).*?(?:-(?<team>\w+))?(?<source>\[\w+\])?$/i';
 
     private $showName;
     private $season;
@@ -13,6 +13,7 @@ class EpisodeHelper
     private $proper;
     private $releaseName;
     private $sample;
+    private $team;
 
     /**
      * EpisodeHelper constructor.
@@ -22,8 +23,9 @@ class EpisodeHelper
      * @param string  $releaseName
      * @param boolean $isProper
      * @param boolean $isSample
+     * @param string  $team
      */
-    public function __construct($showName, $season, $episode, $releaseName, $isProper, $isSample)
+    public function __construct($showName, $season, $episode, $releaseName, $isProper, $isSample, $team)
     {
         $this->showName = $showName;
         $this->season = $season;
@@ -31,6 +33,7 @@ class EpisodeHelper
         $this->releaseName = $releaseName;
         $this->proper = $isProper;
         $this->sample = $isSample;
+        $this->team = $team;
     }
 
     /**
@@ -44,10 +47,11 @@ class EpisodeHelper
             $season = (int) $matches['season'];
             $episode = $matches['episode'];
             $releaseName = isset($matches['source']) ? str_replace($matches['source'], '', $fileName) : $fileName;
+            $team = isset($matches['team']) ? $matches['team'] : null;
             $isProper = stripos($releaseName, 'PROPER') !== false || stripos($releaseName, 'REPACK') !== false;
             $isSample = stripos($releaseName, 'SAMPLE') !== false;
 
-            return new EpisodeHelper($showName, $season, $episode, $releaseName, $isProper, $isSample);
+            return new EpisodeHelper($showName, $season, $episode, $releaseName, $isProper, $isSample, $team);
         } else {
             return false;
         }
@@ -99,5 +103,13 @@ class EpisodeHelper
     public function isSample()
     {
         return $this->sample;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTeam()
+    {
+        return $this->team;
     }
 }
