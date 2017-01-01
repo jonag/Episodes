@@ -7,7 +7,7 @@ set_time_limit(0);
  */
 $loader = require __DIR__.'/../vendor/autoload.php';
 
-$application = new \jonag\Episodes\Application('Episodes', '2.1');
+$application = new \jonag\Episodes\Application('Episodes', '2.1.1');
 
 $container = $application->getContainer();
 $container['pdo'] = function () {
