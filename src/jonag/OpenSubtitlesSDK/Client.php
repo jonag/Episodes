@@ -33,7 +33,7 @@ class Client
     public function getToken()
     {
         if ($this->token === null) {
-            $result = $this->call('LogIn', ['', '', 'en', 'jonag\episodes v2.1.1']);
+            $result = $this->call('LogIn', ['', '', 'en', 'jonag\episodes v2.1.2']);
             $this->token = $result['token'];
         }
 
@@ -92,7 +92,7 @@ class Client
      * @return mixed|null
      * @throws \jonag\OpenSubtitlesSDK\Exception\OpenSubtitlesException
      */
-    private function call($methodName, $params = [])
+    private function call($methodName, array $params = [])
     {
         if ($this->xmlRpcClient === null) {
             $this->xmlRpcClient = new RpcClient('http://api.opensubtitles.org/xml-rpc');
@@ -111,14 +111,12 @@ class Client
 
             case UnauthorizedException::CODE:
                 throw new UnauthorizedException($result['status']);
-                break;
 
             case MethodNotFoundException::CODE:
                 throw new MethodNotFoundException($result['status']);
 
             default:
                 throw new OpenSubtitlesException($result['status']);
-                break;
         }
     }
 }

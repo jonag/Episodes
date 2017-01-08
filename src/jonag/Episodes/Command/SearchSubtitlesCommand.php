@@ -80,7 +80,7 @@ class SearchSubtitlesCommand extends Command
         try {
             $subtitles = $osClient->getSubtitles('eng', $searchOptions);
             $progressBar->advance();
-        } catch (OpenSubtitlesException $e) {
+        } catch (\Exception $e) {
             $progressBar->finish();
             $io->error(sprintf('An error occured while calling the OpenSubtitles API %s', $e->getMessage()));
 
