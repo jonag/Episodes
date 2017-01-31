@@ -33,7 +33,7 @@ class Client
     public function getToken()
     {
         if ($this->token === null) {
-            $result = $this->call('LogIn', ['', '', 'en', 'jonag\episodes v2.1.2']);
+            $result = $this->call('LogIn', ['', '', 'en', 'jonag\episodes v2.2.0']);
             $this->token = $result['token'];
         }
 
