@@ -5,3 +5,4 @@ parameters:
     delete_nuked: true
     search_subtitles: true
     prefer_move_over_copy: false
+    provider: jonag\Episodes\Provider\OpenSubtitlesProvider
