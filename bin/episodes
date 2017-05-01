@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+use jonag\Episodes\Exception\InvalidProviderException;
+use jonag\Episodes\Provider\OpenSubtitlesProvider;
+
 set_time_limit(0);
 /**
  * @var Composer\Autoload\ClassLoader $loader
@@ -20,8 +23,19 @@ $container['pdo'] = function () {
 $container['config'] = function () {
     return \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__.'/../settings.yml'))['parameters'];
 };
+
 $container['osClient'] = function () {
     return new \jonag\OpenSubtitlesSDK\Client();
+};
+
+$container['provider'] = function ($c) {
+    switch ($c['config']['provider']) {
+        case OpenSubtitlesProvider::class:
+            return new OpenSubtitlesProvider($c['osClient']);
+
+        default:
+            throw new InvalidProviderException('Invalid subtitles provider');
+    }
 };
 
 $application->run();

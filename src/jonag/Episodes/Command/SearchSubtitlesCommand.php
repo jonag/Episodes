@@ -2,10 +2,7 @@
 
 namespace jonag\Episodes\Command;
 
-use jonag\Episodes\Helper\EpisodeHelper;
-use jonag\OpenSubtitlesSDK\Client;
-use jonag\OpenSubtitlesSDK\Exception\OpenSubtitlesException;
-use jonag\OpenSubtitlesSDK\Helper\Hash;
+use jonag\Episodes\Provider\ProviderInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -45,69 +42,23 @@ class SearchSubtitlesCommand extends Command
 
             $result = 1;
             foreach ($finder->in($fileInfo->getPathname()) as $file) {
-                $result = $this->searchSubtitlesForFile($file, $io, $container['osClient'], $input->getOption('override'));
+                $result = $this->searchSubtitlesForFile($file, $io, $container['provider'], $input->getOption('override'));
             }
         } else {
-            $result = $this->searchSubtitlesForFile($fileInfo, $io, $container['osClient'], $input->getOption('override'));
+            $result = $this->searchSubtitlesForFile($fileInfo, $io, $container['provider'], $input->getOption('override'));
         }
 
         return $result;
     }
 
-
     /**
-     * @param array $subtitles
-     * @param EpisodeHelper|false $episode
-     * @return null|string
-     */
-    protected function findBestSubtitle($subtitles, $episode)
-    {
-        $bestScore = -1;
-        $bestDownloadsCount = -1;
-        $link = null;
-
-        foreach ($subtitles as $subtitle) {
-            if ($subtitle['SubHearingImpaired'] !== '0') {
-                continue;
-            }
-
-            if ($episode !== false
-                && $subtitle['MatchedBy'] === 'fulltext'
-                && $episode->getTeam() !== null
-                && strpos($subtitle['MovieReleaseName'], $episode->getTeam()) === false) {
-                continue;
-            }
-
-            $score = 0;
-
-            if ($subtitle['MatchedBy'] === 'moviehash') {
-                $score += 10;
-            }
-
-            if ($subtitle['UserRank'] === 'trusted' || $subtitle['UserRank'] === 'administrator') {
-                $score += 4;
-            } elseif ($subtitle['UserRank'] === 'platinum member' || $subtitle['UserRank'] === 'gold member') {
-                $score += 3;
-            }
-
-            if ($score > $bestScore || ($score === $bestScore && (int) $subtitle['SubDownloadsCnt'] > $bestDownloadsCount)) {
-                $bestScore = $score;
-                $bestDownloadsCount = (int) $subtitle['SubDownloadsCnt'];
-                $link = $subtitle['SubDownloadLink'];
-            }
-        }
-
-        return $link;
-    }
-
-    /**
-     * @param \SplFileInfo                                  $fileInfo
-     * @param \Symfony\Component\Console\Style\SymfonyStyle $io
-     * @param \jonag\OpenSubtitlesSDK\Client                $osClient
-     * @param boolean                                       $override
+     * @param \SplFileInfo                                                                              $fileInfo
+     * @param \Symfony\Component\Console\Style\SymfonyStyle                                             $io
+     * @param \jonag\Episodes\Provider\ProviderInterface $provider
+     * @param boolean                                                                                   $override
      * @return int
      */
-    protected function searchSubtitlesForFile(\SplFileInfo $fileInfo, SymfonyStyle $io, Client $osClient, $override)
+    protected function searchSubtitlesForFile(\SplFileInfo $fileInfo, SymfonyStyle $io, ProviderInterface $provider, $override)
     {
         if (!$fileInfo->isFile()) {
             $io->error(sprintf('The resource %s is not a file', $fileInfo->getPathname()));
@@ -121,68 +72,21 @@ class SearchSubtitlesCommand extends Command
         if (!$override && file_exists($subtitlesPath)) {
             $io->warning('Subtitles already exist for this file. Use option --override to override');
 
-            return 2;
+            return 0;
         }
 
         $io->text(sprintf('Looking for subtitles for the file %s', $fileInfo->getFilename()));
-        $progressBar = $io->createProgressBar(4);
 
-        $progressBar->start();
-        $hash = Hash::calculateHash($fileInfo->getPathname());
-        $progressBar->advance();
-
-        $searchOptions = [
-            'hash' => [
-                'movieHash' => $hash,
-                'movieSize' => filesize($fileInfo->getPathname())
-            ],
-        ];
-
-        $episode = EpisodeHelper::parseFileName($fileInfo->getBasename('.'.$fileInfo->getExtension()));
-        if ($episode !== false) {
-            $searchOptions['query'] = [
-                'showName' => $episode->getShowName(),
-                'season' => $episode->getSeason(),
-                'episode' => $episode->getEpisode(),
-            ];
+        if ($subtitles = $provider->findSubtitleForFile($io, $fileInfo) === null) {
+            return 1;
         }
 
-        try {
-            $subtitles = $osClient->getSubtitles('eng', $searchOptions);
-            $progressBar->advance();
-        } catch (\Exception $e) {
-            $progressBar->finish();
-            $io->error(sprintf('An error occured while calling the OpenSubtitles API %s', $e->getMessage()));
-
-            return 4;
-        }
-
-        $link = $this->findBestSubtitle($subtitles, $episode);
-        if ($link === null) {
-            $progressBar->finish();
-            $io->warning('Unable to find matching subtitles');
-
-            return 3;
-        }
-        $progressBar->advance();
-
-        $gzSubtitles = @file_get_contents($link);
-        if ($gzSubtitles === false) {
-            $progressBar->finish();
-            $io->error('Unable to download the subtitles');
-
-            return 5;
-        }
-        $data = gzinflate(substr($gzSubtitles, 10));
-        $copied = @file_put_contents($subtitlesPath, $data);
+        $copied = @file_put_contents($subtitlesPath, $subtitles);
         if ($copied === false) {
-            $progressBar->finish();
             $io->error(sprintf('Unable to write the file %s', $subtitlesPath));
 
-            return 6;
+            return 1;
         }
-        $progressBar->finish();
-
 
         $io->success(sprintf('Subtitles downloaded'));
 
