@@ -46,11 +46,12 @@ class SearchMissingSubtitlesCommand extends Command
             $arguments = [
                 'command' => 'subtitles:search',
                 'file' => $missingSubtitle['file'],
+                'override' => true,
             ];
             $commandInput = new ArrayInput($arguments);
             $subtitlesFound = $searchSubtitlesCommand->run($commandInput, $io);
 
-            if ($subtitlesFound <= 2) {
+            if ($subtitlesFound === 0) {
                 $statement = $pdo->prepare('DELETE FROM subs WHERE id = :id');
                 $statement->bindParam('id', $missingSubtitle['id'], \PDO::PARAM_INT);
                 try {
