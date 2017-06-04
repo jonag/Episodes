@@ -46,7 +46,7 @@ class SearchMissingSubtitlesCommand extends Command
             $arguments = [
                 'command' => 'subtitles:search',
                 'file' => $missingSubtitle['file'],
-                'override' => true,
+                '--override' => true,
             ];
             $commandInput = new ArrayInput($arguments);
             $subtitlesFound = $searchSubtitlesCommand->run($commandInput, $io);
