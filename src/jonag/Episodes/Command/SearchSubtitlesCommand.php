@@ -77,7 +77,7 @@ class SearchSubtitlesCommand extends Command
 
         $io->text(sprintf('Looking for subtitles for the file %s', $fileInfo->getFilename()));
 
-        if ($subtitles = $provider->findSubtitleForFile($io, $fileInfo) === null) {
+        if (($subtitles = $provider->findSubtitleForFile($io, $fileInfo)) === null) {
             return 1;
         }
 
